@@ -12,6 +12,37 @@ object FruitExample{
   class Orange extends Fruit { def name = "Orange" }
 
   class Apple extends Fruit { def name = "Apple" }
+
+  case class AppleBox(item: Apple, quantity: Int)
+  case class OrangeBox(item: Orange, quantity: Int)
+
+  case class BoxG[+A <: Fruit](item : A, quantity : Int){
+    def label: String = item.name
+  }
+
+  def unWrappedFruitBox(box: BoxG[Fruit])
+  = s"This box contains fruits : ${box.label} with quantity ${box.quantity} in dozens"
+
+  val apple = new Apple()
+  val appleBox: BoxG[Fruit] = BoxG[Apple](apple,3)
+  unWrappedFruitBox(appleBox)
+
+  val listOfVariables = List(1, 2, 2.7, "One", "two", 'symbolExample)
+
+  for{
+    variable <- listOfVariables
+  }{
+    val str = variable match {
+      case 1 => "int 1"
+      case i:Int => "other int: "+i
+      case d:Double => s"double: $d"
+      case "one" => "String one"
+      case _: String => "other string"
+      case _ => "Other type of variable"
+    }
+    println(str)
+  } // For loop end
+
 }
 
 
